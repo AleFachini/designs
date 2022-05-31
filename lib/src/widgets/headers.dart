@@ -167,3 +167,47 @@ class _HeaderPicoPainter extends CustomPainter {
     return true;
   }
 }
+
+class HeaderCurvo extends StatelessWidget {
+  HeaderCurvo({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      child: CustomPaint(
+        painter: _HeaderCurvoPainter(),
+      ),
+    );
+  }
+}
+
+class _HeaderCurvoPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint(); //es el lapiz
+
+    //Propiedades
+    paint.color = Color(0xff615aab);
+    paint.style = PaintingStyle.fill; // .stroke or .fill
+    paint.strokeWidth = 10;
+
+    final path = new Path(); //es el camino que debe hacer el lapiz
+
+    //Dibujar con el paint y el path
+    //moveTO mueve el lapiz sin apollarlo entonces no traza
+    //lineTo mueve el lapiz trazando el recorrido
+    path.lineTo(0, size.height * 0.20);
+    path.quadraticBezierTo(
+        size.width * 0.5, size.height * 0.4, size.width, size.height * 0.20);
+    path.lineTo(size.width, 0);
+    //ahora le indico al canvas que dibuje
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
