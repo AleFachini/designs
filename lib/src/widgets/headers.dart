@@ -257,3 +257,64 @@ class _HeaderWavesPainter extends CustomPainter {
     return true;
   }
 }
+
+class HeaderWavesGradient extends StatelessWidget {
+  HeaderWavesGradient({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      child: CustomPaint(
+        painter: _HeaderWavesGradientPainter(),
+      ),
+    );
+  }
+}
+
+class _HeaderWavesGradientPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Rect.fromCircle(center: Offset(0.0, 55.0), radius: 180);
+
+    final Gradient gradiente = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: <Color>[
+          Color(0xff6d05e8),
+          Color(0xffc012ff),
+          Color(0xff6d05fa),
+        ],
+        stops: [
+          0.2,
+          0.5,
+          1.0,
+        ]);
+
+    final paint = Paint()..shader = gradiente.createShader(rect); //es el lapiz
+
+    //Propiedades
+    paint.style = PaintingStyle.fill; // .stroke or .fill
+    paint.strokeWidth = 10;
+
+    final path = new Path(); //es el camino que debe hacer el lapiz
+
+    //Dibujar con el paint y el path
+    //moveTO mueve el lapiz sin apollarlo entonces no traza
+    //lineTo mueve el lapiz trazando el recorrido
+    path.lineTo(0, size.height * 0.30);
+    path.quadraticBezierTo(size.width * 0.25, size.height * 0.35,
+        size.width * 0.5, size.height * 0.30);
+    path.quadraticBezierTo(
+        size.width * 0.75, size.height * 0.25, size.width, size.height * 0.30);
+    path.lineTo(size.width, 0);
+    //ahora le indico al canvas que dibuje
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
