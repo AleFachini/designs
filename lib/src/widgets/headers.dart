@@ -21,8 +21,8 @@ class HeaderBordesRendondeados extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      color: const Color(0xff615aab),
       decoration: const BoxDecoration(
+        color: const Color(0xff615aab),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(50),
           bottomRight: Radius.circular(50),
