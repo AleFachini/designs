@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'dart:math' as Math;
 
 class AnimacionesPage extends StatelessWidget {
   AnimacionesPage({Key? key}) : super(key: key);
@@ -35,7 +36,18 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
     //vsync: this requiere el mixin SingleTickerProviderStateMixin
     controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 4000));
-    rotacion = Tween(begin: 0.0, end: 2.0).animate(controller!);
+    rotacion = Tween(
+      begin: 0.0,
+      end: 2 * Math.pi,
+    ).animate(controller!);
+
+    //agregamos un listener al controller de la siguiente manera
+    controller!.addListener(() {
+      print('Status: ${controller!.status}');
+      if (controller!.status == AnimationStatus.completed) {
+        controller!.reverse();
+      }
+    });
 
     super.initState();
   }
