@@ -30,6 +30,7 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
   AnimationController? controller;
   Animation<double>? rotacion;
   Animation<double>? opacidad;
+  Animation<double>? moverDerecha;
 
   @override
   void initState() {
@@ -48,13 +49,20 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
     ).animate(
       CurvedAnimation(
         parent: controller!,
-        curve: Interval(
+        curve: const Interval(
           //Agrega porcentualmente en cuanto de la animacion hara el efecto de opacidad
           0.0,
           0.25,
           curve: Curves.easeOut,
         ),
       ),
+    );
+
+    moverDerecha = Tween(
+      begin: 0.0,
+      end: 200.0,
+    ).animate(
+      CurvedAnimation(parent: controller!, curve: Curves.easeOut),
     );
 
     //agregamos un listener al controller de la siguiente manera
@@ -82,11 +90,15 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
       child:
           _Rectangulo(), //Dejamos el widget y luego concatenaremos animaciones
       builder: (BuildContext context, Widget? child) {
-        return Transform.rotate(
-          angle: rotacion!.value,
-          child: Opacity(
-            opacity: opacidad!.value,
-            child: child, //el rectangulo que esta en animatedBuilder
+        return Transform.translate(
+          offset: Offset(moverDerecha!.value,
+              0), //offset toma valores en ejes XY a parteir de TOPLEFT
+          child: Transform.rotate(
+            angle: rotacion!.value,
+            child: Opacity(
+              opacity: opacidad!.value,
+              child: child, //el rectangulo que esta en animatedBuilder
+            ),
           ),
         );
       },
@@ -102,7 +114,7 @@ class _Rectangulo extends StatelessWidget {
     return Container(
       width: 70,
       height: 70,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.blue,
       ),
     );
