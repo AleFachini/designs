@@ -28,8 +28,8 @@ class CuadradoAnimado extends StatefulWidget {
 class _CuadradoAnimadoState extends State<CuadradoAnimado>
     with SingleTickerProviderStateMixin {
   AnimationController? controller;
-
   Animation<double>? rotacion;
+  Animation<double>? opacidad;
 
   @override
   void initState() {
@@ -39,7 +39,23 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
     rotacion = Tween(
       begin: 0.0,
       end: 2 * Math.pi,
-    ).animate(controller!);
+    ).animate(
+      CurvedAnimation(parent: controller!, curve: Curves.easeOut),
+    );
+    opacidad = Tween(
+      begin: 0.1,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: controller!,
+        curve: Interval(
+          //Agrega porcentualmente en cuanto de la animacion hara el efecto de opacidad
+          0.0,
+          0.25,
+          curve: Curves.easeOut,
+        ),
+      ),
+    );
 
     //agregamos un listener al controller de la siguiente manera
     controller!.addListener(() {
@@ -63,8 +79,16 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
     controller!.forward();
     return AnimatedBuilder(
       animation: controller!,
+      child:
+          _Rectangulo(), //Dejamos el widget y luego concatenaremos animaciones
       builder: (BuildContext context, Widget? child) {
-        return Transform.rotate(angle: rotacion!.value, child: _Rectangulo());
+        return Transform.rotate(
+          angle: rotacion!.value,
+          child: Opacity(
+            opacity: opacidad!.value,
+            child: child, //el rectangulo que esta en animatedBuilder
+          ),
+        );
       },
     );
   }
