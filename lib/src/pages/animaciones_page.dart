@@ -30,6 +30,7 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
   AnimationController? controller;
   Animation<double>? rotacion;
   Animation<double>? opacidad;
+  Animation<double>? opacidadOut;
   Animation<double>? moverDerecha;
   Animation<double>? agrandar;
 
@@ -55,6 +56,21 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
           0.0,
           0.25,
           curve: Curves.easeOut,
+        ),
+      ),
+    );
+
+    opacidadOut = Tween(
+      begin: 1.0,
+      end: 0.1,
+    ).animate(
+      CurvedAnimation(
+        parent: controller!,
+        curve: const Interval(
+          //Agrega porcentualmente en cuanto de la animacion hara el efecto de opacidad
+          0.75,
+          1.0,
+          curve: Curves.easeIn,
         ),
       ),
     );
@@ -106,9 +122,12 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
             angle: rotacion!.value,
             child: Opacity(
               opacity: opacidad!.value,
-              child: Transform.scale(
-                scale: agrandar!.value,
-                child: child,
+              child: Opacity(
+                opacity: opacidadOut!.value,
+                child: Transform.scale(
+                  scale: agrandar!.value,
+                  child: child,
+                ),
               ), //el rectangulo que esta en animatedBuilder es este "child"
             ),
           ),
