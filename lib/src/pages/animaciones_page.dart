@@ -117,7 +117,7 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
       builder: (BuildContext context, Widget? child) {
         return Transform.translate(
           offset: Offset(moverDerecha!.value,
-              0), //offset toma valores en ejes XY a parteir de TOPLEFT
+              0), //offset toma valores en ejes XY a partir de TOPLEFT
           child: Transform.rotate(
             angle: rotacion!.value,
             child: Opacity(
