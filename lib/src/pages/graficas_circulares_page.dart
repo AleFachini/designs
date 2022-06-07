@@ -1,3 +1,4 @@
+import 'package:designs/src/widgets/radial_progress.dart';
 import 'package:flutter/material.dart';
 
 class GraficasCircularesPage extends StatefulWidget {
@@ -25,9 +26,11 @@ class _GraficasCircularesPageState extends State<GraficasCircularesPage> {
         backgroundColor: Colors.blue,
       ),
       body: Center(
-        child: Text(
-          '$porcentaje %',
-          style: TextStyle(fontSize: 40),
+        child: Container(
+          width: 300,
+          height: 300,
+          color: Colors.red,
+          child: RadialProgress(percent: 40.0),
         ),
       ),
     );
