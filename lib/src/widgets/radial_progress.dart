@@ -4,8 +4,19 @@ import 'package:flutter/material.dart';
 
 class RadialProgress extends StatefulWidget {
   final percent;
+  final Color primaryColor;
+  final Color secondaryColor;
+  final double primaryWidth;
+  final double secondaryWidth;
 
-  RadialProgress({super.key, required this.percent});
+  RadialProgress({
+    super.key,
+    required this.percent,
+    this.primaryColor = Colors.blue,
+    this.secondaryColor = Colors.grey,
+    this.primaryWidth = 10,
+    this.secondaryWidth = 4,
+  });
 
   @override
   State<RadialProgress> createState() => _RadialProgressState();
@@ -45,8 +56,14 @@ class _RadialProgressState extends State<RadialProgress>
             width: double.infinity,
             height: double.infinity,
             child: CustomPaint(
-              painter: _MyRadialProgress((widget.percent - diffToAnimate) +
-                  (diffToAnimate * controller!.value)),
+              painter: _MyRadialProgress(
+                (widget.percent - diffToAnimate) +
+                    (diffToAnimate * controller!.value),
+                widget.primaryColor,
+                widget.secondaryColor,
+                widget.primaryWidth,
+                widget.secondaryWidth,
+              ),
             ),
           );
         });
@@ -54,15 +71,25 @@ class _RadialProgressState extends State<RadialProgress>
 }
 
 class _MyRadialProgress extends CustomPainter {
-  final porcentaje;
+  final percent;
+  final Color primaryColor;
+  final Color secondaryColor;
+  final double primaryWidth;
+  final double secondaryWidth;
 
-  _MyRadialProgress(this.porcentaje);
+  _MyRadialProgress(
+    this.percent,
+    this.primaryColor,
+    this.secondaryColor,
+    this.primaryWidth,
+    this.secondaryWidth,
+  );
   @override
   void paint(Canvas canvas, Size size) {
     //crear el Paint(lapiz) para dibujar
     final paint = Paint()
-      ..strokeWidth = 4
-      ..color = Colors.grey
+      ..strokeWidth = secondaryWidth
+      ..color = secondaryColor
       ..style = PaintingStyle.stroke;
 
     //Crear el circulo completo
@@ -72,14 +99,14 @@ class _MyRadialProgress extends CustomPainter {
 
     //Crear Lapiz Arco
     final paintArc = Paint()
-      ..strokeWidth = 10
-      ..color = Colors.pink
+      ..strokeWidth = primaryWidth
+      ..color = primaryColor
       ..style = PaintingStyle.stroke;
 
     //Arco Stroke
     double arcAngle = 2 *
         pi *
-        (porcentaje / 100); //que porcentaje de una vuelta dibujamos del arco
+        (percent / 100); //que porcentaje de una vuelta dibujamos del arco
     canvas.drawArc(
         Rect.fromCircle(
             center: center, radius: radius), //espacio donde se ubica el arco
