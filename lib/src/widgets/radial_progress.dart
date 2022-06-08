@@ -86,6 +86,15 @@ class _MyRadialProgress extends CustomPainter {
   );
   @override
   void paint(Canvas canvas, Size size) {
+    final Rect rect = Rect.fromCircle(
+      center: Offset(0, 0),
+      radius: 180,
+    );
+    final Gradient gradient = LinearGradient(colors: <Color>[
+      Color(0xffc012ff),
+      Color(0xff6d05e8),
+      Colors.red,
+    ]);
     //crear el Paint(lapiz) para dibujar
     final paint = Paint()
       ..strokeWidth = secondaryWidth
@@ -100,7 +109,9 @@ class _MyRadialProgress extends CustomPainter {
     //Crear Lapiz Arco
     final paintArc = Paint()
       ..strokeWidth = primaryWidth
-      ..color = primaryColor
+      //..color = primaryColor //No se usa cuando aplicamos un gradiente
+      ..shader = gradient.createShader(rect)
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     //Arco Stroke
