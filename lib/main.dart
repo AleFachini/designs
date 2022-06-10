@@ -1,5 +1,4 @@
 import 'package:designs/src/pages/animaciones_page.dart';
-import 'package:designs/src/labs/circular_progress_page.dart';
 import 'package:designs/src/pages/graficas_circulares_page.dart';
 import 'package:designs/src/pages/headers_page.dart';
 import 'package:designs/src/pages/slideshow_page.dart';
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: SlideShowPage(),
+      home: SlideshowPage(),
     );
   }
 }
