@@ -205,28 +205,24 @@ class _SlideshowModel with ChangeNotifier {
 
   set dotInactiveSize(double value) {
     this._dotInactiveSize = value;
-    notifyListeners();
   }
 
   double get dotActiveSize => this._dotActiveSize;
 
   set dotActiveSize(double value) {
     this._dotActiveSize = value;
-    notifyListeners();
   }
 
   Color get colorPrimary => this._colorPrimary;
 
   set colorPrimary(Color value) {
     this._colorPrimary = value;
-    notifyListeners();
   }
 
   Color get colorSecondary => this._colorSecondary;
 
   set colorSecondary(Color value) {
     this._colorSecondary = value;
-    notifyListeners();
   }
 
   double get currentPage => this._currentPage;
