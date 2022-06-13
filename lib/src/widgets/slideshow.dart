@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 class Slideshow extends StatelessWidget {
   final List<Widget> slides;
   final bool dotsPosition;
+  final double dotActiveSize;
+  final double dotInactiveSize;
   final Color colorActive;
   final Color colorInactive;
 
@@ -14,6 +16,8 @@ class Slideshow extends StatelessWidget {
     this.dotsPosition = false,
     this.colorActive = Colors.blue,
     this.colorInactive = Colors.grey,
+    this.dotActiveSize = 12,
+    this.dotInactiveSize = 12,
   }) : super(key: key);
 
   @override
@@ -29,6 +33,10 @@ class Slideshow extends StatelessWidget {
                 this.colorActive;
             Provider.of<_SlideshowModel>(context)._colorSecondary =
                 this.colorInactive;
+            Provider.of<_SlideshowModel>(context)._dotActiveSize =
+                this.dotActiveSize;
+            Provider.of<_SlideshowModel>(context)._dotInactiveSize =
+                this.dotInactiveSize;
 
             return Column(
               children: [
@@ -91,19 +99,27 @@ class _Dot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final slideshowModel = Provider.of<_SlideshowModel>(context);
+    double dotSize;
+    Color dotColor;
+
+    if ((slideshowModel.currentPage >= index - 0.5 &&
+        slideshowModel.currentPage < index + 0.5)) {
+      dotSize = slideshowModel.dotActiveSize;
+      dotColor = slideshowModel.colorPrimary;
+    } else {
+      dotSize = slideshowModel.dotInactiveSize;
+      dotColor = slideshowModel.colorSecondary;
+    }
 
     return AnimatedContainer(
       duration: Duration(milliseconds: 200),
-      width: 12,
-      height: 12,
+      width: dotSize,
+      height: dotSize,
       margin: EdgeInsets.symmetric(
         horizontal: 4,
       ),
       decoration: BoxDecoration(
-        color: (slideshowModel.currentPage >= index - 0.5 &&
-                slideshowModel.currentPage < index + 0.5)
-            ? slideshowModel.colorPrimary
-            : slideshowModel.colorSecondary,
+        color: dotColor,
         shape: BoxShape.circle,
       ),
     );
@@ -180,6 +196,24 @@ class _SlideshowModel with ChangeNotifier {
   Color _colorPrimary = Colors.blue;
 
   Color _colorSecondary = Colors.grey;
+
+  double _dotActiveSize = 12;
+
+  double _dotInactiveSize = 12;
+
+  double get dotInactiveSize => this._dotInactiveSize;
+
+  set dotInactiveSize(double value) {
+    this._dotInactiveSize = value;
+    notifyListeners();
+  }
+
+  double get dotActiveSize => this._dotActiveSize;
+
+  set dotActiveSize(double value) {
+    this._dotActiveSize = value;
+    notifyListeners();
+  }
 
   Color get colorPrimary => this._colorPrimary;
 
