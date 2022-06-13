@@ -5,26 +5,47 @@ import 'package:provider/provider.dart';
 
 class Slideshow extends StatelessWidget {
   final List<Widget> slides;
+  final bool dotsPosition;
+  final Color colorActive;
+  final Color colorInactive;
 
   Slideshow({
     Key? key,
     required this.slides,
+    this.dotsPosition = false,
+    this.colorActive = Colors.blue,
+    this.colorInactive = Colors.grey,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => SliderModel(),
-      child: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: _Slides(
-                slides: slides,
+      child: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              dotsPosition
+                  ? _Dots(
+                      quantity: slides.length,
+                      colorActive: colorActive,
+                      colorInactive: colorInactive,
+                    )
+                  : SizedBox.shrink(),
+              Expanded(
+                child: _Slides(
+                  slides: slides,
+                ),
               ),
-            ),
-            _Dots(quantity: slides.length),
-          ],
+              !dotsPosition
+                  ? _Dots(
+                      quantity: slides.length,
+                      colorActive: colorActive,
+                      colorInactive: colorInactive,
+                    )
+                  : SizedBox.shrink()
+            ],
+          ),
         ),
       ),
     );
@@ -33,8 +54,12 @@ class Slideshow extends StatelessWidget {
 
 class _Dots extends StatelessWidget {
   final int quantity;
+  final Color colorActive;
+  final Color colorInactive;
   _Dots({
     required this.quantity,
+    required this.colorActive,
+    required this.colorInactive,
   });
 
   @override
@@ -44,18 +69,28 @@ class _Dots extends StatelessWidget {
       height: 70,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(quantity, (index) => _Dot(index: index)),
+        children: List.generate(
+            quantity,
+            (index) => _Dot(
+                  index: index,
+                  colorActive: colorActive,
+                  colorInactive: colorInactive,
+                )),
       ),
     );
   }
 }
 
 class _Dot extends StatelessWidget {
-  final int? index;
+  final int index;
+  final Color colorActive;
+  final Color colorInactive;
 
   _Dot({
     Key? key,
-    this.index,
+    required this.index,
+    required this.colorActive,
+    required this.colorInactive,
   }) : super(key: key);
 
   @override
@@ -69,9 +104,9 @@ class _Dot extends StatelessWidget {
         horizontal: 4,
       ),
       decoration: BoxDecoration(
-        color: (pageViewIndex >= index! - 0.5 && pageViewIndex < index! + 0.5)
-            ? Colors.blue
-            : Colors.grey,
+        color: (pageViewIndex >= index - 0.5 && pageViewIndex < index + 0.5)
+            ? colorActive
+            : colorInactive,
         shape: BoxShape.circle,
       ),
     );
