@@ -6,8 +6,93 @@ class SliverListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _TaskList(), //_Title(),
+      body: Stack(
+        children: [
+          _MainScroll(),
+          Positioned(
+            bottom: 0,
+            right: -10,
+            child: _FloatinCustomButtonTheme(),
+          ),
+        ],
+      ),
     );
+  }
+}
+
+class _MainScroll extends StatelessWidget {
+  _MainScroll({Key? key}) : super(key: key);
+
+  final items = [
+    _ListItem('Orange', Color(0xffF08F66)),
+    _ListItem('Family', Color(0xffF2A38A)),
+    _ListItem('Subscriptions', Color(0xffF7CDD5)),
+    _ListItem('Books', Color(0xffFCEBAF)),
+    _ListItem('Orange', Color(0xffF08F66)),
+    _ListItem('Family', Color(0xffF2A38A)),
+    _ListItem('Subscriptions', Color(0xffF7CDD5)),
+    _ListItem('Books', Color(0xffFCEBAF)),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        SliverPersistentHeader(
+          delegate: _SliverCustomHeaderDelegate(
+            minHeight: 170,
+            maxHeight: 200,
+            child: Container(
+              alignment: Alignment.centerLeft,
+              color: Colors.white,
+              child: _Title(),
+            ),
+          ),
+          floating: true,
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            ...items,
+            SizedBox(
+              height: 100,
+            )
+          ]),
+        )
+      ],
+    );
+  }
+}
+
+class _SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+
+  _SliverCustomHeaderDelegate({
+    required this.minHeight,
+    required this.maxHeight,
+    required this.child,
+  });
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return SizedBox.expand(
+      child: child,
+    );
+  }
+
+  @override
+  double get maxExtent => minHeight > maxHeight ? minHeight : maxHeight;
+
+  @override
+  double get minExtent => minHeight < maxHeight ? minHeight : maxHeight;
+
+  @override
+  bool shouldRebuild(covariant _SliverCustomHeaderDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }
 
@@ -61,23 +146,35 @@ class _Title extends StatelessWidget {
   }
 }
 
-class _TaskList extends StatelessWidget {
-  final items = [
-    _ListItem('Orange', Color(0xffF08F66)),
-    _ListItem('Family', Color(0xffF2A38A)),
-    _ListItem('Subscriptions', Color(0xffF7CDD5)),
-    _ListItem('Books', Color(0xffFCEBAF)),
-    _ListItem('Orange', Color(0xffF08F66)),
-    _ListItem('Family', Color(0xffF2A38A)),
-    _ListItem('Subscriptions', Color(0xffF7CDD5)),
-    _ListItem('Books', Color(0xffFCEBAF)),
-  ];
-
+class _FloatinCustomButtonTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: items.length,
-        itemBuilder: ((context, index) => items[index]));
+    final size = MediaQuery.of(context).size;
+
+    return SizedBox(
+      //Como cambio raised por Elevated entonces ButtonTheme por SizedBox
+      width: size.width * 0.9,
+      height: 100,
+      child: ElevatedButton(
+        //Cambio el Raised Button por este ElevatedButton
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xffed6762),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(50)),
+          ),
+        ),
+        child: Text(
+          'CREATE NEW LIST',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 3,
+          ),
+        ),
+        onPressed: () {},
+      ),
+    );
   }
 }
 
