@@ -4,6 +4,7 @@ import 'package:designs/src/pages/graficas_circulares_page.dart';
 import 'package:designs/src/pages/headers_page.dart';
 import 'package:designs/src/pages/pinterest_page.dart';
 import 'package:designs/src/pages/slideshow_page.dart';
+import 'package:designs/src/pages/sliver_list_page.dart';
 import 'package:designs/src/retos/cuadrado_animado_page.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: EmergencyPage(),
+      home: SliverListPage(),
     );
   }
 }
