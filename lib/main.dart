@@ -2,6 +2,7 @@ import 'package:designs/src/pages/animaciones_page.dart';
 import 'package:designs/src/pages/emergency_page.dart';
 import 'package:designs/src/pages/graficas_circulares_page.dart';
 import 'package:designs/src/pages/headers_page.dart';
+import 'package:designs/src/pages/launcher_page.dart';
 import 'package:designs/src/pages/pinterest_page.dart';
 import 'package:designs/src/pages/slideshow_page.dart';
 import 'package:designs/src/pages/sliver_list_page.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: SliverListPage(),
+      home: LauncherPage(),
     );
   }
 }
