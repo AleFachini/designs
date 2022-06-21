@@ -1,4 +1,6 @@
+import 'package:designs/src/theme/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SliverListPage extends StatelessWidget {
   SliverListPage({Key? key}) : super(key: key);
@@ -36,6 +38,8 @@ class _MainScroll extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context);
+
     return CustomScrollView(
       slivers: [
         SliverPersistentHeader(
@@ -44,7 +48,7 @@ class _MainScroll extends StatelessWidget {
             maxHeight: 200,
             child: Container(
               alignment: Alignment.centerLeft,
-              color: Colors.white,
+              color: appTheme.currentTheme.scaffoldBackgroundColor,
               child: _Title(),
             ),
           ),
@@ -101,6 +105,8 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context);
+
     return Column(
       children: [
         SizedBox(
@@ -111,7 +117,7 @@ class _Title extends StatelessWidget {
           child: Text(
             'New',
             style: TextStyle(
-              color: Color(0xff532128),
+              color: appTheme.darkTheme ? Colors.grey : Color(0xff532128),
               fontSize: 50,
             ),
           ),
@@ -126,7 +132,7 @@ class _Title extends StatelessWidget {
               child: Container(
                 width: 150,
                 height: 8,
-                color: Color(0xfff7cdd5),
+                color: appTheme.darkTheme ? Colors.grey : Color(0xfff7cdd5),
               ),
             ),
             Container(
@@ -150,6 +156,7 @@ class _FloatinCustomButtonTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final appTheme = Provider.of<ThemeChanger>(context);
 
     return SizedBox(
       //Como cambio raised por Elevated entonces ButtonTheme por SizedBox
@@ -158,7 +165,9 @@ class _FloatinCustomButtonTheme extends StatelessWidget {
       child: ElevatedButton(
         //Cambio el Raised Button por este ElevatedButton
         style: ElevatedButton.styleFrom(
-          primary: Color(0xffed6762),
+          primary: appTheme.darkTheme
+              ? appTheme.currentTheme.colorScheme.secondary
+              : Color(0xffed6762),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(50)),
           ),
@@ -166,7 +175,9 @@ class _FloatinCustomButtonTheme extends StatelessWidget {
         child: Text(
           'CREATE NEW LIST',
           style: TextStyle(
-            color: Colors.white,
+            color: appTheme.darkTheme
+                ? appTheme.currentTheme.scaffoldBackgroundColor
+                : Colors.white,
             fontSize: 18,
             fontWeight: FontWeight.bold,
             letterSpacing: 3,
@@ -186,13 +197,15 @@ class _ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context);
+
     return Container(
       alignment: Alignment.centerLeft,
       padding: EdgeInsets.all(30),
       height: 130,
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: color,
+        color: appTheme.darkTheme ? Colors.grey : color,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Text(
