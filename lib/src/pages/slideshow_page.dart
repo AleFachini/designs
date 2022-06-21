@@ -1,6 +1,8 @@
+import 'package:designs/src/theme/themes.dart';
 import 'package:designs/src/widgets/slideshow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class SlideshowPage extends StatelessWidget {
   SlideshowPage({Key? key}) : super(key: key);
@@ -26,8 +28,12 @@ class MySlideshow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context);
+
     return Slideshow(
-      colorActive: Color(0xffff5a7e),
+      colorActive: appTheme.darkTheme
+          ? appTheme.currentTheme.colorScheme.secondary
+          : Color(0xffff5a7e),
       dotActiveSize: 20,
       slides: [
         SvgPicture.asset('assets/svgs/slide-1.svg'),

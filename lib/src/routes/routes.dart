@@ -1,3 +1,4 @@
+import 'package:designs/src/pages/graficas_circulares_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,7 +16,7 @@ final pageRoutes = <_Route>[
   _Route(FontAwesomeIcons.heading, 'Headers', HeadersPage()),
   _Route(FontAwesomeIcons.peopleCarryBox, 'Cuadro Animado', AnimacionesPage()),
   _Route(FontAwesomeIcons.circleNotch, 'Progress Circular ',
-      CircularProgressPage()),
+      GraficasCircularesPage()),
   _Route(FontAwesomeIcons.pinterest, 'Pinterest', PinterestPage()),
   _Route(FontAwesomeIcons.mobile, 'Slivers', SliverListPage()),
 ];
