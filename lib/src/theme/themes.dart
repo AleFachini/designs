@@ -10,7 +10,9 @@ class ThemeChanger with ChangeNotifier {
       case 1: //light
         _darkTheme = false;
         _customTheme = false;
-        _currentTheme = ThemeData.light();
+        _currentTheme = ThemeData.light().copyWith(
+          colorScheme: ThemeData().colorScheme.copyWith(secondary: Colors.pink),
+        );
         break;
       case 2: //dark
         _darkTheme = true;
@@ -36,7 +38,9 @@ class ThemeChanger with ChangeNotifier {
     if (value) {
       _currentTheme = ThemeData.dark();
     } else {
-      _currentTheme = ThemeData.light();
+      _currentTheme = ThemeData.light().copyWith(
+        colorScheme: ThemeData().colorScheme.copyWith(secondary: Colors.pink),
+      );
     }
     notifyListeners();
   }
@@ -57,7 +61,9 @@ class ThemeChanger with ChangeNotifier {
         ),
       );
     } else {
-      _currentTheme = ThemeData.light();
+      _currentTheme = ThemeData.light().copyWith(
+        colorScheme: ThemeData().colorScheme.copyWith(secondary: Colors.pink),
+      );
     }
     notifyListeners();
   }

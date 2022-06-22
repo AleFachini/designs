@@ -1,8 +1,10 @@
+import 'package:designs/src/models/layout_model.dart';
 import 'package:designs/src/pages/animaciones_page.dart';
 import 'package:designs/src/pages/emergency_page.dart';
 import 'package:designs/src/pages/graficas_circulares_page.dart';
 import 'package:designs/src/pages/headers_page.dart';
 import 'package:designs/src/pages/launcher_page.dart';
+import 'package:designs/src/pages/launcher_tablet_page.dart';
 import 'package:designs/src/pages/pinterest_page.dart';
 import 'package:designs/src/pages/slideshow_page.dart';
 import 'package:designs/src/pages/sliver_list_page.dart';
@@ -12,8 +14,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (_) => ThemeChanger(2),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<ThemeChanger>(
+        create: (_) => ThemeChanger(1),
+      ),
+      ChangeNotifierProvider<LayoutModel>(
+        create: (_) => LayoutModel(),
+      ),
+    ],
     child: MyApp(),
   ));
 }
@@ -28,22 +37,22 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Diseños APP',
       theme: currentTheme,
-      home: LauncherPage(),
+      home: OrientationBuilder(builder: ((context, orientation) {
+        // print('$orientation');
+        final screenSize = MediaQuery.of(context).size;
+
+        if (screenSize.width > 500) {
+          return LauncherTabletPage();
+        } else {
+          return LauncherPage();
+        }
+      })), //LauncherPage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
